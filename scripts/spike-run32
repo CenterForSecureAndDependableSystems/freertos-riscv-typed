@@ -1,0 +1,2 @@
+#!/bin/bash
+spike -p1 --isa RV32IMA -m0x80000000:0x10000000 --rbb-port 9824 $@
