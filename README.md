@@ -2,23 +2,24 @@
 
 # Setup
 This repository provides a Dockerfile for building an image which can be used
-to create new containers. You'll need an OCI compatible runtime like [Docker]
-(https://docs.docker.com/engine/install/) or [Podman](https://podman.io/docs/
-installation). You can either use a prebuilt image file or build a new image
-yourself, though building can take some time.
+to create new containers. You'll need an OCI compatible runtime like 
+[Docker](https://docs.docker.com/engine/install/) or 
+[Podman](https://podman.io/docs/installation).
+You can either use a prebuilt image file or build a new image yourself, though
+building can take some time.
 
 ## Building the Images
 Two images are present in this repo, one for building the
 `crosstools-riscv-zicsr` dependency, and the main one. `crosstools-riscv-zicsr`
-is provided on DockerHub [here](https://hub.docker.com/repository/docker/u1f98e/ crosstools-riscv32-zicsr/general), 
+is provided on DockerHub [here](https://hub.docker.com/repository/docker/u1f98e/crosstools-riscv32-zicsr/general), 
 but you can also build it locally if needed.
 
 ### Building Crosstools (Optional)
 If you need to update crosstools or adjust it's configuration, you can build a
 local image:
 
-Adjust configuration within `[crosstool/crosstool-defconfig]` or update the
-submodule at `[crosstool/crosstool-ng]`, then:
+Adjust configuration within [crosstool/crosstool-defconfig] or update the
+submodule at [crosstool/crosstool-ng], then:
 
 ```bash
 cd crosstool
