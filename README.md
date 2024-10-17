@@ -18,8 +18,8 @@ but you can also build it locally if needed.
 If you need to update crosstools or adjust it's configuration, you can build a
 local image:
 
-Adjust configuration within [crosstool/crosstool-defconfig] or update the
-submodule at [crosstool/crosstool-ng], then:
+Adjust configuration within [crosstool/crosstool-defconfig](crosstool/crosstool-defconfig) or update the
+submodule at [crosstool/crosstool-ng](crosstool/crosstool-ng), then:
 
 ```bash
 cd crosstool
@@ -29,7 +29,7 @@ docker build . --tag u1f98e/crosstools-riscv-zicsr
 
 Building crosstools takes a while (~30 minutes on my machine). Docker should
 then use your local image instead of pulling it from Dockerhub, if it doesn't
-you can replace the first `FROM` statement in the root [Dockerfile] with
+you can replace the first `FROM` statement in the root [Dockerfile](Dockerfile) with
 `localhost/crosstools-riscv-zicsr`.
 
 ### Build the Simulator/FreeRTOS Image
