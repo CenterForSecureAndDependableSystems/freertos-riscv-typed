@@ -1,5 +1,5 @@
 [submodule "crosstool-ng"]
-	path = crosstool-ng
+	path = crosstool/crosstool-ng
 	url = https://github.com/crosstool-ng/crosstool-ng.git
 [submodule "riscv-isa-sim"]
 	path = riscv-isa-sim
