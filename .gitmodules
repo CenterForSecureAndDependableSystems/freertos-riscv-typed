@@ -1,12 +1,12 @@
 [submodule "crosstool-ng"]
 	path = crosstool/crosstool-ng
 	url = https://github.com/crosstool-ng/crosstool-ng.git
-[submodule "riscv-isa-sim"]
-	path = riscv-isa-sim
-	url = https://github.com/riscv-software-src/riscv-isa-sim.git
 [submodule "riscv-openocd"]
 	path = riscv-openocd
 	url = https://github.com/riscv-collab/riscv-openocd.git
 [submodule "FreeRTOS"]
 	path = FreeRTOS
 	url = https://github.com/FreeRTOS/FreeRTOS.git
+[submodule "riscv-isa-sim-typed"]
+	path = riscv-isa-sim-typed
+	url = git@github.com:u1f98e/riscv-isa-sim-typed.git

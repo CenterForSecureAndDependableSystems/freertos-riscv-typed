@@ -42,8 +42,8 @@ RUN make -j$(nproc)
 
 # SPIKE Simulator ##########################
 WORKDIR /home/researcher
-COPY --chown=researcher:researcher riscv-isa-sim riscv-isa-sim
-WORKDIR /home/researcher/riscv-isa-sim
+COPY --chown=researcher:researcher riscv-isa-sim-typed riscv-isa-sim-typed
+WORKDIR /home/researcher/riscv-isa-sim-typed
 
 RUN mkdir build
 WORKDIR build
