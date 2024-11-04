@@ -22,7 +22,7 @@ WORKDIR /home/researcher
 COPY --chown=researcher:researcher riscv-openocd riscv-openocd
 WORKDIR /home/researcher/riscv-openocd 
 
-RUN ./bootstrap && ./configure --prefix=$RISCV_PREFIX
+RUN ./bootstrap nosubmodule && ./configure --prefix=$RISCV_PREFIX
 # Build with all available cores
 RUN make -j$(nproc)
 # For some reason make install's permissions are messed up and want root despite being installed to a user directory

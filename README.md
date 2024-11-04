@@ -1,5 +1,12 @@
 # FreeRTOS Risc-V Simulator
 
+TODO: Project Description
+
+When cloning this repo, make sure you fetch all submodules as well:
+```bash
+git clone --recurse-submodules https://github.com/u1f98e/freertos-riscv-typed.git
+```
+
 # Setup
 This repository provides a Dockerfile for building an image which can be used
 to create new containers. You'll need an OCI compatible runtime like 

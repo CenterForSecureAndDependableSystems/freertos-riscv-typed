@@ -9,4 +9,4 @@
 	url = https://github.com/FreeRTOS/FreeRTOS.git
 [submodule "riscv-isa-sim-typed"]
 	path = riscv-isa-sim-typed
-	url = git@github.com:u1f98e/riscv-isa-sim-typed.git
+	url = https://github.com/u1f98e/riscv-isa-sim-typed.git
