@@ -54,6 +54,12 @@ RUN make -j$(nproc)
 USER root
 RUN make install
 
+# libtypetag ########################
+WORKDIR /home/researcher
+COPY --chown=researcher:researcher libtypetag libtypetag
+WORKDIR /home/researcher/libtypetag
+RUN make -j$(nproc) && make install DESTDIR=$RISCV_PREFIX
+
 # Final Setup ########################
 COPY --chown=researcher:researcher tests /home/researcher/FreeRTOS/FreeRTOS/tests
 COPY scripts /usr/local/bin
