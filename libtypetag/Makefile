@@ -36,8 +36,7 @@ else
     CFLAGS += -Os
 endif
 
-SRCS = src/riscv.c
-HEADERS = typetag.h riscv.h
+SRCS = src/control_riscv.c
 
 OBJS = $(SRCS:src/%.c=$(BUILD_DIR)/%$(XLEN).o) $(ASMS:src/%.S=$(BUILD_DIR)/%$(XLEN).o)
 DEPS = $(SRCS:src/%.c=$(BUILD_DIR)/%$(XLEN).d) $(ASMS:src/%.S=$(BUILD_DIR)/%$(XLEN).d)

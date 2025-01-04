@@ -1,4 +1,6 @@
-#include "typetag/riscv.h"
+// Implementation of control.h functions for riscv
+
+#include "typetag/control.h"
 #include "typetag/typetag.h"
 #include <stdint.h>
 
