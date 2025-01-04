@@ -4,6 +4,7 @@ CC      = $(CROSS)gcc
 CPP     = $(CROSS)cpp
 OBJCOPY = $(CROSS)objcopy
 ARCH    = $(CROSS)ar
+CROSS_ROOT = /opt/x-tools/riscv32-unknown-elf/
 DEBUG ?= 0
 BASE_ADDRESS ?= 0x80000000
 
@@ -29,6 +30,7 @@ CPPFLAGS = \
 	-I $(RTOS_SOURCE_DIR)/portable/GCC/RISC-V \
 	-I $(RTOS_SOURCE_DIR)/portable/GCC/RISC-V/chip_specific_extensions/RV32I_CLINT_no_extensions
 CFLAGS  = -march=$(MARCH) -mabi=$(MABI) -mcmodel=medany \
+	-I $(CROSS_ROOT)/include \
 	-Wall \
 	-fmessage-length=0 \
 	-ffunction-sections \
@@ -38,6 +40,7 @@ LDFLAGS = -nostartfiles \
 	-march=$(MARCH) -mabi=$(MABI) -mcmodel=medany \
 	-Xlinker --gc-sections \
 	-Xlinker --defsym=__stack_size=$(STACK_SIZE)
+LIBS = -L $(CROSS_ROOT)/lib -l:libtypetag.a
 
 ifeq ($(DEBUG), 1)
     CFLAGS += -Og -ggdb3
@@ -73,7 +76,7 @@ OBJS = $(SRCS:%.c=$(BUILD_DIR)/%$(XLEN).o) $(ASMS:%.S=$(BUILD_DIR)/%$(XLEN).o)
 DEPS = $(SRCS:%.c=$(BUILD_DIR)/%$(XLEN).d) $(ASMS:%.S=$(BUILD_DIR)/%$(XLEN).d)
 
 $(BUILD_DIR)/RTOSDemo$(XLEN).axf: $(OBJS) $(BUILD_DIR)/fake_rom$(BASE_ADDRESS).lds Makefile
-	$(CC) $(LDFLAGS) $(OBJS) -T$(BUILD_DIR)/fake_rom$(BASE_ADDRESS).lds -o $@
+	$(CC) $(LDFLAGS) $(OBJS) -T$(BUILD_DIR)/fake_rom$(BASE_ADDRESS).lds $(LIBS) -o $@
 
 $(BUILD_DIR)/%$(XLEN).o: %.c Makefile
 	@mkdir -p $(@D)

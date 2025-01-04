@@ -27,7 +27,9 @@
 /* FreeRTOS kernel includes. */
 #include <FreeRTOS.h>
 #include <task.h>
-#include<stdio.h>
+#include <stdio.h>
+#include <typetag/control.h>
+#include <typetag/typetag.h>
 /* Run a simple demo just prints 'Blink' */
 #define DEMO_BLINKY    1
 
@@ -57,6 +59,10 @@ int main( void )
 	
     sprintf(buf, "Hello FeeRTOS!\n");
     vSendString( buf );  
+
+    tt_set_checks(1);
+    sprintf(buf, "Command run\n");
+    vSendString( buf ); 
 
     return ret;
 }
