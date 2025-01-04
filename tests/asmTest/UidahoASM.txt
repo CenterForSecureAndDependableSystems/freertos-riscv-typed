@@ -1,0 +1,48 @@
+# Set some values using some of the following
+#  slti x0, x1, 0       # Turn tag propagation off
+#  slti x0, x1, 1       # Turn tag propagation on
+#  slti x0, x1, 2       # Turn tag checking off
+#  slti x0, x1, 3       # Turn tag checking on
+#  slti x0, x1, 4       # Turn tag propoagation & checking off
+#  slti x0, x1, 5       # Turn tag propoagation & checking on
+
+#  slt  x0, rd1, rs1    # Set a tag (tag of rd1 is value in rs1)
+#  sll  x0, rd1, rs1    # Read a tag (value of rd1 is tag in rs1)
+
+
+## For each of these I suggest you change the message of line 10 of main.S to
+## something like "Example 1 Number = %d\n"
+	
+	
+# Example 1  Turn on /off tagging -- see if nothing breaks
+  	slti x0, x1, 1       # Turn tag propagation on
+	  slti x0, x1, 3       # Turn tag checking on
+	  slti x0, x1, 2       # Turn tag checking off
+	  slti x0, x1, 0       # Turn tag propagation off
+
+# Example 2  Turn on /off tagging -- see if nothing breaks
+  	  slti x0, x1, 4       # Turn tag propagation & checking on
+	  slti x0, x1, 5       # Turn tag propagation & checking off
+
+
+# Example 3 Create a flag in t1,  (insert this after li a2, 4  -- line 20 of mian.S)
+# testing if setting flag changes raw value
+	li  t0, 0  	    # clear temp register t0
+	li  t0, 8	    # Flag is unsigned integer 8 bits
+	li  t1, 0   	    # Clear temp register t1
+	slt  x0, t1, t0     # Copy tag into tag for t1
+	addi a2, t1, 0	    # Copy value of t1 into a2 and print. Result should be 0
+
+
+
+# Example 4 Create a flag in t1,  (insert this after li a2, 4  -- line 20 of mian.S)
+# Testing if w read flag we wrote
+	li  t0, 0  	      # clear temp register t0
+	li  t0, 8	      # Flag is unsigned integer 8 bits
+	li  t1, 0   	      # Clear temp register t1
+	li  t1, 0   	      # Clear temp register t2	
+	slt  x0, t1, t0	      # Copy tag into tag for t1
+	sll  x0, t2, t1	      # Copy tag into tag for t1	
+	addi a2, t2, 0	      # get result into a2 so we can print it
+
+
