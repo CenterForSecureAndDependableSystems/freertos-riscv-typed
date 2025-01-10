@@ -61,6 +61,8 @@ int main( void )
     vSendString( buf );  
 
     tt_set_checks(1);
+    tt_set_prop(1);
+
     sprintf(buf, "Command run\n");
     vSendString( buf ); 
 

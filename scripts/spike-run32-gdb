@@ -1,0 +1,3 @@
+#!/bin/bash
+gdb -tui -ex "set startup-with-shell off" --args \
+	spike -p1 --isa RV32IMA -m0x80000000:0x10000000 --rbb-port 9824 $@

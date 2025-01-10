@@ -3,10 +3,9 @@ FROM u1f98e/crosstools-riscv32-zicsr
 # Don't let apt prompt for interaction
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt update
-RUN apt install -y \
+RUN apt update && apt install -y \
   build-essential sudo vim software-properties-common openssh-server \
-  gcc-multilib g++-multilib llvm sysstat make perl clang \
+  gcc-multilib g++-multilib gdb llvm sysstat make perl clang \
   git autoconf flex texinfo help2man gawk libtool \
   libtool-bin bison python3-dev python3.10-dev \
   pkg-config unzip device-tree-compiler libboost-regex-dev \
