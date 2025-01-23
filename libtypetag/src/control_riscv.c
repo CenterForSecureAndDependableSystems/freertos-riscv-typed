@@ -15,7 +15,7 @@ void tt_set_checks(int enabled) {
 	}
 }
 
-void tt_set_exception(TagException exception, int enabled) {
+void tt_set_exception(tagexception_t exception, int enabled) {
 	if(enabled == 1) {
 		__asm__ volatile (
 			"sltiu x0, %0, %c1"
@@ -43,8 +43,8 @@ void tt_set_prop(int enabled) {
 	}
 }
 
-TypeTag tt_get_tag(void* ptr) {
-	TypeTag tag; 
+typetag_t tt_get_tag(char* ptr) {
+	typetag_t tag; 
 	__asm__ volatile (
 		"sll x0, %1, %0"
 		: "=r" (tag)
@@ -54,7 +54,7 @@ TypeTag tt_get_tag(void* ptr) {
 	return tag;
 }
 
-void tt_set_tag(void* ptr, TypeTag tag) {
+void tt_set_tag(char* ptr, typetag_t tag) {
 	__asm__ volatile (
 		"slt x0, %1, %0"
 		: /* No outputs */

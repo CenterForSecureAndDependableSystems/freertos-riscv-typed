@@ -59,13 +59,21 @@ int main( void )
 	
     sprintf(buf, "Hello FeeRTOS!\n");
     vSendString( buf );  
+    // printf("test\n");
 
     tt_set_checks(1);
     tt_set_prop(1);
 
+    char test1 = 'a';
+    tt_set_tag(&test1, 3);
+    typetag_t tag1 = tt_get_tag(&test1);
+    sprintf(buf, "Wrote: 3. Got: %d\n", tag1);
+    vSendString( buf ); 
+
     sprintf(buf, "Command run\n");
     vSendString( buf ); 
 
+    // printf("test2\n");
     return ret;
 }
 /*-----------------------------------------------------------*/

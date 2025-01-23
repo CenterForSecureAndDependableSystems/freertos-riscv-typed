@@ -5,7 +5,7 @@
 
 // Enable or disable a particular tagging exception
 // when tt checks or propagation is enabled
-void tt_set_exception(TagException exception, int enabled);
+void tt_set_exception(tagexception_t exception, int enabled);
 
 // TODO TAG: Need hint instruction. Necessary?
 // int tt_checks_enabled();
@@ -19,7 +19,7 @@ void tt_set_checks(int enabled);
 // Enable or disable tag propagation
 void tt_set_prop(int enabled);
 
-TypeTag tt_get_tag(void* ptr);
-void tt_set_tag(void* ptr, TypeTag tag);
+typetag_t tt_get_tag(char* ptr);
+void tt_set_tag(char* ptr, typetag_t tag);
 
 #endif // TYPE_TAG_H

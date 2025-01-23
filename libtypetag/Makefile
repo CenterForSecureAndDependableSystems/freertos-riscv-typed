@@ -36,7 +36,7 @@ else
     CFLAGS += -Os
 endif
 
-SRCS = src/control_riscv.c
+SRCS = src/control_riscv.c src/typetag.c
 
 OBJS = $(SRCS:src/%.c=$(BUILD_DIR)/%$(XLEN).o) $(ASMS:src/%.S=$(BUILD_DIR)/%$(XLEN).o)
 DEPS = $(SRCS:src/%.c=$(BUILD_DIR)/%$(XLEN).d) $(ASMS:src/%.S=$(BUILD_DIR)/%$(XLEN).d)
