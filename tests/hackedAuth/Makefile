@@ -18,8 +18,8 @@ else
 endif
 
 BUILD_DIR       = build
-RTOS_SOURCE_DIR = $(abspath ../../Source)
-DEMO_SOURCE_DIR = $(abspath ../Common/Minimal)
+PROJECT_DIR     = /home/researcher/project
+RTOS_SOURCE_DIR = $(PROJECT_DIR)/FreeRTOS/FreeRTOS/Source
 
 CPPFLAGS = \
 	-D__riscv_float_abi_soft \
@@ -44,22 +44,6 @@ ifeq ($(DEBUG), 1)
 else
     CFLAGS += -Os
 endif
-
-#SRCS = main.c riscv-virt.c htif.c \
-#	$(DEMO_SOURCE_DIR)/EventGroupsDemo.c \
-#	$(DEMO_SOURCE_DIR)/TaskNotify.c \
-#	$(DEMO_SOURCE_DIR)/TimerDemo.c \
-#	$(DEMO_SOURCE_DIR)/blocktim.c \
-#	$(DEMO_SOURCE_DIR)/dynamic.c \
-#	$(DEMO_SOURCE_DIR)/recmutex.c \
-#	$(RTOS_SOURCE_DIR)/event_groups.c \
-#	$(RTOS_SOURCE_DIR)/list.c \
-#	$(RTOS_SOURCE_DIR)/queue.c \
-#	$(RTOS_SOURCE_DIR)/stream_buffer.c  \
-#	$(RTOS_SOURCE_DIR)/tasks.c \
-#	$(RTOS_SOURCE_DIR)/timers.c \
-#	$(RTOS_SOURCE_DIR)/portable/MemMang/heap_4.c \
-#	$(RTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c
 
 SRCS = main.c riscv-virt.c htif.c \
 	$(RTOS_SOURCE_DIR)/stream_buffer.c  \
