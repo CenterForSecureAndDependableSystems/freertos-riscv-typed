@@ -49,7 +49,7 @@ WORKDIR $PROJECT_DIR/riscv-isa-sim-typed
 
 RUN mkdir build
 WORKDIR build
-RUN ../configure --prefix=$RISCV_PREFIX
+RUN ../configure
 # Build with all available cores
 RUN make -j$(nproc)
 # For some reason make install's permissions are messed up and want root despite being installed to a user directory
