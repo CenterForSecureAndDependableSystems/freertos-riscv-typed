@@ -63,11 +63,16 @@ int main( void )
 
     tt_set_checks(1);
     tt_set_prop(1);
+    char val = 'b';
+    typetag_t tagZ = tt_get_tag(&val);
+    typetag_t tagA = 4;
+    tt_set_tag(&val, tagA);
+    typetag_t tagB = tt_get_tag(&val);
+    tt_set_prop(0);
 
-    char test1 = 'a';
-    tt_set_tag(&test1, 3);
-    typetag_t tag1 = tt_get_tag(&test1);
-    sprintf(buf, "Wrote: 3. Got: %d\n", tag1);
+    sprintf(buf, "Initial: %d\n", tagZ);
+    vSendString( buf ); 
+    sprintf(buf, "Wrote: %d. Got: %d\n", tagA, tagB);
     vSendString( buf ); 
 
     sprintf(buf, "Command run\n");

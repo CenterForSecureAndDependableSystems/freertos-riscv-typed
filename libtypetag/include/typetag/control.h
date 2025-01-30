@@ -7,13 +7,13 @@
 // when tt checks or propagation is enabled
 void tt_set_exception(tagexception_t exception, int enabled);
 
-// TODO TAG: Need hint instruction. Necessary?
+// TODO [TAG]: Need hint instruction. Necessary?
 // int tt_checks_enabled();
 
 // Enable or disable tag propagation
 void tt_set_checks(int enabled);
 
-// TODO TAG: Need hint instruction. Necessary?
+// TODO [TAG]: Need hint instruction. Necessary?
 // int tt_prop_enabled();
 
 // Enable or disable tag propagation
