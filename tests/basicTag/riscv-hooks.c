@@ -17,6 +17,7 @@ void vApplicationMallocFailedHook( void )
      * to query the size of free heap space that remains (although it does not
      * provide information on how the remaining heap might be fragmented). */
     taskDISABLE_INTERRUPTS();
+	vSendString("\e[1;31m FreeRTOS: Malloc hook failed \e[0m");
 
     for( ; ; )
     {
@@ -35,6 +36,7 @@ void vApplicationIdleHook( void )
      * important that vApplicationIdleHook() is permitted to return to its calling
      * function, because it is the responsibility of the idle task to clean up
      * memory allocated by the kernel to any task that has since been deleted. */
+	vSendString("\e[1;31m FreeRTOS: Idle hook \e[0m");
 }
 /*-----------------------------------------------------------*/
 
@@ -48,6 +50,7 @@ void vApplicationStackOverflowHook( TaskHandle_t pxTask,
      * configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
      * function is called if a stack overflow is detected. */
     taskDISABLE_INTERRUPTS();
+	vSendString("\e[1;31m FreeRTOS: Stack Overflow \e[0m");
 
     for( ; ; )
     {

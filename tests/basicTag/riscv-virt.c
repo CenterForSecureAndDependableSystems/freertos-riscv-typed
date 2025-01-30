@@ -74,6 +74,7 @@ void vAssertCalled( void )
     volatile uint32_t ulSetTo1ToExitFunction = 0;
 
     taskDISABLE_INTERRUPTS();
+	vSendString("\e[1;31m Failed assertion (unknown) \e[0m");
 
     while( ulSetTo1ToExitFunction != 1 )
     {

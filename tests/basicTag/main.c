@@ -26,6 +26,7 @@
 
 /* FreeRTOS kernel includes. */
 #include <FreeRTOS.h>
+#include <assert.h>
 #include <task.h>
 #include <stdio.h>
 #include <typetag/control.h>
@@ -80,9 +81,10 @@ int run_test(const char* test_name, int (*test_func)()) {
     vSendString( buf ); 
 
     if(test_func() == 0) {
-        sprintf(buf, "Test [%s]: Fail\n", test_name);
-        vSendString( buf ); 
-        return 0;
+        sprintf(buf, "\e[1;31mTest [%s]: Fail\nStopping.\e[0m\n", test_name);
+        vSendString( buf );
+        // return 0;
+        assert(0);
     }
     else {
         sprintf(buf, "Test [%s]: Pass\n", test_name);
@@ -98,7 +100,9 @@ int main( void )
     prvSetupSpike();
 
     run_test("Get/Set", &test_tag_get_set);
-    run_test("Basic Propagate", &test_tag_propagation);
+    run_test("Basic Propagation", &test_tag_propagation);
+
+    vSendString("Done."); 
 
     return 0;
 }
