@@ -7,7 +7,7 @@ ARCH    = $(CROSS)ar
 CROSS_ROOT = /opt/x-tools/riscv32-unknown-elf/
 DEBUG ?= 0
 BASE_ADDRESS ?= 0x80000000
-TARGET = basicTagTest
+TARGET = basicTag
 
 ifeq ($(XLEN), 64)
     MARCH = rv64ima_zicsr_zifencei

@@ -80,17 +80,24 @@ int run_test(const char* test_name, int (*test_func)()) {
     sprintf(buf, "Running Test [%s] ---", test_name);
     vSendString( buf ); 
 
+    int result;
     if(test_func() == 0) {
         sprintf(buf, "\e[1;31mTest [%s]: Fail\nStopping.\e[0m\n", test_name);
         vSendString( buf );
-        // return 0;
+        result = 0;
         assert(0);
     }
     else {
         sprintf(buf, "Test [%s]: Pass\n", test_name);
         vSendString( buf ); 
-        return 1;
+        result = 1;
     }
+
+    // Reset tag flags
+    tt_set_prop(0);
+    tt_set_checks(0);
+
+    return result;
 }
 
 /*-----------------------------------------------------------*/
