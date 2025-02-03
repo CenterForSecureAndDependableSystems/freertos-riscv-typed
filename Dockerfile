@@ -61,9 +61,15 @@ USER researcher
 WORKDIR $PROJECT_DIR
 COPY --chown=researcher:researcher libtypetag libtypetag
 WORKDIR $PROJECT_DIR/libtypetag
-RUN make -j$(nproc) 
+# We need to build versions for the demos (riscv) and x86 (for spike)
+# Build riscv libtypetag
+RUN make -j$(nproc) ARCH=riscv
+# Build x86 libtypetag
+RUN make -j$(nproc)
+# Install libraries
 USER root
 RUN make install DESTDIR=$RISCV_PREFIX
+RUN make install ARCH=riscv DESTDIR=$RISCV_PREFIX
 USER researcher
 
 # Final Setup ########################

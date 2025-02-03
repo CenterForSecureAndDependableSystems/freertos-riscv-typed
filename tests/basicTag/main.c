@@ -85,7 +85,7 @@ int run_test(const char* test_name, int (*test_func)()) {
         sprintf(buf, "\e[1;31mTest [%s]: Fail\nStopping.\e[0m\n", test_name);
         vSendString( buf );
         result = 0;
-        assert(0);
+        assert(0); // Quit early for now
     }
     else {
         sprintf(buf, "Test [%s]: Pass\n", test_name);
