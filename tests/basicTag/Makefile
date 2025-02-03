@@ -41,7 +41,7 @@ LDFLAGS = -nostartfiles \
 	-march=$(MARCH) -mabi=$(MABI) -mcmodel=medany \
 	-Xlinker --gc-sections \
 	-Xlinker --defsym=__stack_size=$(STACK_SIZE)
-LIBS = -L $(CROSS_ROOT)/lib -l:libtypetag.a
+LIBS = -L $(CROSS_ROOT)/lib -l:libtypetag-riscv.a
 
 ifeq ($(DEBUG), 1)
     CFLAGS += -Og -ggdb3
