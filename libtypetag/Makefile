@@ -50,7 +50,7 @@ else
 	SRCS = src/typetag.c
 endif
 
-CFLAGS += -I include/ -Wall
+CFLAGS += -I include/ -Wall -fPIC
 
 ifeq ($(DEBUG), 1)
     CFLAGS += -Og -ggdb3

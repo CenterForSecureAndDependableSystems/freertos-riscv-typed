@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef uint8_t typetag_t;
 typedef uint32_t tagexception_t;
 
@@ -25,9 +29,14 @@ enum TagRefType {
 };
 
 /// Size of this object in bytes {1, 2, 4, 8}
-int tt_get_tag_size(typetag_t tag);
+void tt_test();
+int tt_get_obj_size(typetag_t tag);
 enum TagObjectType tt_get_tag_type(typetag_t tag);
 enum TagRefType tt_get_ref_type(typetag_t tag);
 int tt_get_is_multibyte(typetag_t tag);
 
+#ifdef __cplusplus
+} // extern "C"
 #endif
+
+#endif // TYPETAG_H
