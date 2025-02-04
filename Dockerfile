@@ -42,6 +42,22 @@ RUN sed -i "s/MARCH\s*=.*/MARCH = rv32ima_zicsr_zifencei/" Makefile
 # Build with all available cores
 RUN make -j$(nproc)
 
+# libtypetag ########################
+USER researcher
+WORKDIR $PROJECT_DIR
+COPY --chown=researcher:researcher libtypetag libtypetag
+WORKDIR $PROJECT_DIR/libtypetag
+# We need to build versions for the demos (riscv) and x86 (for spike)
+# Build riscv libtypetag
+RUN make -j$(nproc) ARCH=riscv
+# Build x86 libtypetag
+RUN make -j$(nproc)
+# Install libraries
+USER root
+RUN make install # Install for x86 (for SPIKE)
+RUN make install ARCH=riscv DESTDIR=$RISCV_PREFIX # Install for riscv (demos)
+USER researcher
+
 # SPIKE Simulator ##########################
 WORKDIR $PROJECT_DIR
 COPY --chown=researcher:researcher riscv-isa-sim-typed riscv-isa-sim-typed
@@ -55,22 +71,6 @@ RUN make -j$(nproc)
 # For some reason make install's permissions are messed up and want root despite being installed to a user directory
 USER root
 RUN make install
-
-# libtypetag ########################
-USER researcher
-WORKDIR $PROJECT_DIR
-COPY --chown=researcher:researcher libtypetag libtypetag
-WORKDIR $PROJECT_DIR/libtypetag
-# We need to build versions for the demos (riscv) and x86 (for spike)
-# Build riscv libtypetag
-RUN make -j$(nproc) ARCH=riscv
-# Build x86 libtypetag
-RUN make -j$(nproc)
-# Install libraries
-USER root
-RUN make install DESTDIR=$RISCV_PREFIX
-RUN make install ARCH=riscv DESTDIR=$RISCV_PREFIX
-USER researcher
 
 # Final Setup ########################
 COPY --chown=researcher:researcher tests $PROJECT_DIR/tests
