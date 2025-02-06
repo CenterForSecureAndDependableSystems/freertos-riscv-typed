@@ -3,12 +3,6 @@
 
 #include <stdint.h>
 
-#define TT_EXP_INT_OVERFLOW         0x401
-#define TT_EXP_INT_DIV_ZERO         0x402
-#define TT_EXP_INVALID_CALL_TAG     0x403
-#define TT_EXP_INVALID_INDIRECT_TAG 0x404
-#define TT_EXP_INVALID_RETURN_TAG   0x405
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -34,12 +28,16 @@ typedef enum {
 	TT_REF_COLLECTION_REF
 } TagRefType;
 
-/// Size of this object in bytes {1, 2, 4, 8}
-int 		  tt_get_obj_size(typetag_t tag);
+/// Returns the size of this object in bytes {1, 2, 4, 8}.
+int tt_get_obj_size(typetag_t tag);
+/// Returns the object type `tag` holds.
 TagObjectType tt_get_obj_type(typetag_t tag);
-TagRefType 	  tt_get_ref_type(typetag_t tag);
-int 		  tt_get_is_multibyte(typetag_t tag);
+/// Returns the ref type `tag` holds.
+TagRefType tt_get_ref_type(typetag_t tag);
+/// Returns 1 if `tag` is marked as part of a multibyte structure, 0 otherwise.
+int tt_get_is_multibyte(typetag_t tag);
 
+/// Set the size field of this tag. Valid sizes are 1, 2, 4, and 8.
 typetag_t  tt_set_obj_size(typetag_t tag, int size);
 typetag_t  tt_set_obj_type(typetag_t tag, TagObjectType objtype);
 typetag_t  tt_set_ref_type(typetag_t tag, TagRefType reftype);
