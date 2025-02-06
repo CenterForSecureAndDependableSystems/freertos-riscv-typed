@@ -2,6 +2,7 @@
 
 #include "typetag/control.h"
 #include "typetag/typetag.h"
+#include "typetag/exception.h"
 #include <stdint.h>
 
 // int tt_checks_enabled() { }
@@ -15,20 +16,29 @@ void tt_set_checks(int enabled) {
 	}
 }
 
-void tt_set_exception(tagexception_t exception, int enabled) {
-	if(enabled == 1) {
-		__asm__ volatile (
-			"sltiu x0, %0, %c1"
-			: /* No outputs */
-			: "r" (exception), "i" (1)
-		);
-	}
-	else {
+void tt_set_exception(tagexception_t exception, TrapMode mode) {
+	switch(mode) {
+	case TRAP_DISABLED:
 		__asm__ volatile (
 			"sltiu x0, %0, %c1"
 			: /* No outputs */
 			: "r" (exception), "i" (0)
 		);
+		break;
+	case TRAP_ENABLED:
+		__asm__ volatile (
+			"sltiu x0, %0, %c1"
+			: /* No outputs */
+			: "r" (exception), "i" (1)
+		);
+		break;
+	case TRAP_WARN:
+		__asm__ volatile (
+			"sltiu x0, %0, %c1"
+			: /* No outputs */
+			: "r" (exception), "i" (2)
+		);
+		break;
 	}
 }
 

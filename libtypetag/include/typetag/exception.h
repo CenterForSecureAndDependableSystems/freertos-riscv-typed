@@ -1,0 +1,16 @@
+#ifndef TYPETAG_EXCEPTION_H
+#define TYPETAG_EXCEPTION_H
+
+#define TT_EXP_INT_OVERFLOW         0x401
+#define TT_EXP_INT_DIV_ZERO         0x402
+#define TT_EXP_INVALID_CALL_TAG     0x403
+#define TT_EXP_INVALID_INDIRECT_TAG 0x404
+#define TT_EXP_INVALID_RETURN_TAG   0x405
+
+typedef enum {
+	TRAP_DISABLED = 0x0,
+	TRAP_ENABLED = 0x1,
+	TRAP_WARN = 0x2
+} TrapMode;
+
+#endif
