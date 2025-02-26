@@ -25,15 +25,18 @@
  */
 
 /* FreeRTOS kernel includes. */
+#include "riscv-virt.h"
 #include <FreeRTOS.h>
-#include <assert.h>
 #include <task.h>
 #include <stdio.h>
 #include <typetag/control.h>
 #include <typetag/typetag.h>
 
-void vApplicationStackOverflowHook( TaskHandle_t pxTask,
-                                    char * pcTaskName );
+// Including C files is evil, but we need these hook functions to be in the
+// same compilation unit as main or weird things happen.
+#include "riscv-hooks.c"
+#include "typetag/exception.h"
+
 /*
  * Setup the Spike simulator to run this demo.
  */
@@ -46,7 +49,6 @@ int test_tag_get_set() {
     typetag_t tag1 = 123;
     typetag_t tag2 = 0;
     tt_set_tag((char*)&val1, tag1);
-    volatile int _tmp1 = 5; // Try to mess with the stack a little
     tag2 = tt_get_tag((char*)&val1);
 
     tt_set_prop(0);
@@ -75,22 +77,52 @@ int test_tag_propagation() {
     return tag1 == tag2;
 }
 
+int return_validate_good() {
+    return 8;
+}
+
+void return_validate_evil() {
+    // Overwrite the return address
+    __asm__ volatile ("lw t0, 12(sp)");
+    __asm__ volatile ("addi t0, t0, 8");
+    __asm__ volatile ("sw t0, 12(sp)");
+    return_validate_good();
+}
+
+int test_return() {
+    int i = 0;
+    tt_set_prop(1);
+    tt_set_exception(TT_EXP_INVALID_RETURN_TAG, TRAP_WARN);
+    tt_set_checks(1);
+    // vSendString("Should have warning:");
+    return_validate_evil();
+    i = 1;
+
+    // vSendString("Should have no warning:");
+    return_validate_good();
+    tt_set_prop(0);
+    tt_set_checks(0);
+
+    char buf[64];
+    sprintf(buf, "  Expected: 1. Got: %d", i);
+    vSendString(buf);
+    return i == 1;
+}
+
 int run_test(const char* test_name, int (*test_func)()) {
     char buf[256];
     sprintf(buf, "Running Test [%s] ---", test_name);
     vSendString( buf ); 
 
     int result;
-    if(test_func() == 0) {
-        sprintf(buf, "\e[1;31mTest [%s]: Fail\nStopping.\e[0m\n", test_name);
-        vSendString( buf );
-        result = 0;
-        assert(0); // Quit early for now
-    }
-    else {
+    if((result = test_func())) {
         sprintf(buf, "Test [%s]: Pass\n", test_name);
         vSendString( buf ); 
-        result = 1;
+    }
+    else {
+        sprintf(buf, "\e[1;31mTest [%s]: Fail\nStopping.\e[0m\n", test_name);
+        vSendString( buf );
+        // assert(0); // Quit early for now
     }
 
     // Reset tag flags
@@ -104,18 +136,27 @@ int run_test(const char* test_name, int (*test_func)()) {
 
 int main( void )
 {
+    // Reset without making function calls so we
+    // can try to recover debug sessions if we restart
+    // the program in the middle of debugging.
+    __asm__ volatile ("slti x0, x0, 0");
+    __asm__ volatile ("slti x0, x0, 2");
+    int tmp = TT_EXP_INVALID_RETURN_TAG;
+    __asm__ volatile (
+        "sltiu x0, %0, %c1"
+        : /* No outputs */
+        : "r" (tmp), "i" (0)
+    );
+
     prvSetupSpike();
 
     run_test("Get/Set", &test_tag_get_set);
     run_test("Basic Propagation", &test_tag_propagation);
+    // run_test("Return Addr", &test_return);
 
     vSendString("Done."); 
 
     return 0;
 }
+
 /*-----------------------------------------------------------*/
-extern void freertos_risc_v_trap_handler( void );
-static void prvSetupSpike( void )
-{
-    __asm__ volatile ( "csrw mtvec, %0" : : "r" ( freertos_risc_v_trap_handler ) );
-}

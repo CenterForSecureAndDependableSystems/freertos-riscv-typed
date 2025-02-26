@@ -1,2 +1,8 @@
 #!/bin/bash
-spike -p1 --isa RV32IMA -m0x80000000:0x10000000 --rbb-port 9824 $@
+spike \
+	-p1 \
+	--isa RV32IMA \
+	-m0x80000000:0x10000000 \
+	--tag-mem 0x90000000:0x10000000:0x80000000 \
+	--rbb-port 9824 \
+	$@

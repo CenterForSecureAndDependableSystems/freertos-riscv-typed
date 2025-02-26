@@ -44,8 +44,8 @@
 
 #ifndef __ASSEMBLER__
 
-int xGetCoreID( void );
-void vSendString( const char * s );
+int xGetCoreID(void);
+void vSendString(const char * s);
 
 #endif /* __ASSEMBLER__ */
 
