@@ -40,7 +40,7 @@ TagObjectType tt_get_obj_type(typetag_t tag) {
 
 typetag_t tt_set_obj_type(typetag_t tag, TagObjectType objtype) {
 	const unsigned mask = 0b111 << 2; // Bits 2,3,4
-	return (tag & ~mask) | objtype;
+	return (tag & ~mask) | (objtype << 2);
 }
 
 TagRefType tt_get_ref_type(typetag_t tag) {
@@ -49,7 +49,7 @@ TagRefType tt_get_ref_type(typetag_t tag) {
 
 typetag_t tt_set_ref_type(typetag_t tag, TagRefType reftype) {
 	const unsigned mask = 0b11 << 5; // Bits 5,6
-	return (tag & ~mask) | reftype;
+	return (tag & ~mask) | (reftype << 5);
 }
 
 int tt_is_multibyte(typetag_t tag) {
@@ -60,21 +60,3 @@ typetag_t tt_set_multibyte(typetag_t tag, int is_multibyte) {
 	const unsigned mask = 1 << 7; // Bit 7
 	return (is_multibyte) ? (tag | mask) : (tag & ~mask);
 }
-
-// typetag_t tt_set_obj_size(typetag_t tag, uint8_t size) {
-// 	// Size in bytes is 2^{bits}
-// 	return tag | 
-// 	return (1 << (int)get_bits(tag, 0, 2));
-// }
-
-// typetag_t tt_set_tag_type(typetag_t tag, enum TagObjectType t) {
-// 	return (ObjType)get_bits(tag, 2, 3);
-// }
-
-// typetag_t tt_set_ref_type(typetag_t tag, enum TagRefType t) {
-// 	return (RefType)get_bits(tag, 5, 2);
-// }
-
-// typetag_t tt_set_is_multibyte(typetag_t tag, int multibyte) {
-// 	return tag | ((multibyte) ? 1 : 0) << 7;
-// }
