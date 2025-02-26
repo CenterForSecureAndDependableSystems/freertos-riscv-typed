@@ -5,7 +5,7 @@ CPP     = $(CROSS)cpp
 OBJCOPY = $(CROSS)objcopy
 ARCH    = $(CROSS)ar
 CROSS_ROOT = /opt/x-tools/riscv32-unknown-elf/
-DEBUG ?= 0
+DEBUG ?= 1
 BASE_ADDRESS ?= 0x80000000
 
 ifeq ($(XLEN), 64)
@@ -40,7 +40,7 @@ LDFLAGS = -nostartfiles \
 	-march=$(MARCH) -mabi=$(MABI) -mcmodel=medany \
 	-Xlinker --gc-sections \
 	-Xlinker --defsym=__stack_size=$(STACK_SIZE)
-LIBS = -L $(CROSS_ROOT)/lib -l:libtypetag.a
+LIBS = -L$(CROSS_ROOT)/lib -l:libtypetag-riscv.a
 
 ifeq ($(DEBUG), 1)
     CFLAGS += -Og -ggdb3

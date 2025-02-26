@@ -62,3 +62,9 @@ void vApplicationTickHook( void )
 {
 }
 /*-----------------------------------------------------------*/
+
+extern void freertos_risc_v_trap_handler( void );
+static void prvSetupSpike( void )
+{
+    __asm__ volatile ( "csrw mtvec, %0" : : "r" ( freertos_risc_v_trap_handler ) );
+}

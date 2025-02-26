@@ -5,7 +5,7 @@ CPP     = $(CROSS)cpp
 OBJCOPY = $(CROSS)objcopy
 ARCH    = $(CROSS)ar
 CROSS_ROOT = /opt/x-tools/riscv32-unknown-elf/
-DEBUG ?= 0
+DEBUG ?= 1
 BASE_ADDRESS ?= 0x80000000
 TARGET = basicTag
 
@@ -44,12 +44,12 @@ LDFLAGS = -nostartfiles \
 LIBS = -L $(CROSS_ROOT)/lib -l:libtypetag-riscv.a
 
 ifeq ($(DEBUG), 1)
-    CFLAGS += -Og -ggdb3
+    CFLAGS += -O0 -ggdb3
 else
-    CFLAGS += -Os
+    CFLAGS += -O0
 endif
 
-SRCS = main.c riscv-virt.c riscv-hooks.c htif.c \
+SRCS = main.c riscv-virt.c htif.c \
 	$(RTOS_SOURCE_DIR)/stream_buffer.c  \
 	$(RTOS_SOURCE_DIR)/tasks.c  \
 	$(RTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c

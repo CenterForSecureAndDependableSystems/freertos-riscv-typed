@@ -1,0 +1,13 @@
+#!/bin/bash
+openocd -f ~/project/spike-openocd.cfg > openocd.log 2>&1 &
+sleep 1
+if [[ -z "$(pgrep openocd)" ]]; then
+	echo "Failed to start. Is spike running?"
+	exit
+fi
+riscv32-unknown-elf-gdb \
+	-ex 'target extended-remote localhost:3333' \
+	-ex 'layout split' \
+	$@
+
+kill -9 $!
