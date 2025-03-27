@@ -34,7 +34,8 @@ for section_args in args.add_tag_section:
 
     section           = lief.ELF.Section()
     section.name      = name
-    section.type      = lief.ELF.Section.TYPE.PROGBITS
+    section.type      = lief.ELF.Section.TYPE.MIPS_AUXSYM
+    # section.type      = lief.ELF.Section.TYPE.from_value(0x70000001)
     section.alignment = 8
     section.link      = section_map[link_name] 
 
