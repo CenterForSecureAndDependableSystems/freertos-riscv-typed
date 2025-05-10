@@ -54,11 +54,38 @@ You should now have a final image named `riscv-freertos`.
 Either use the Docker GUI to start and enter the container, or use:
 
 ```bash
-docker start riscv-freertos
-docker exec -it riscv-freertos /bin/bash
+# First time:
+docker run -it riscv-freertos --name sel
+
+# Subsequent times:
+docker start sel
+docker exec -it sel /bin/bash
 ```
 
 Generally for development, I work and commit changes from inside the container.
+You can forward your ssh keys for commiting things to the git repo:
+```bash
+# On the host system, enable ssh agent forwarding. You will likely need to look
+# up how to do this for your specific system, I can't test on windows :(
+
+# For linux, enable AllowAgentForwarding in /etc/ssh/sshd_config and restart sshd.
+# Then, start the agent:
+eval "$(ssh-agent -s)"
+# Confirm your keys are available:
+ssh-add -l
+
+# Then create the container, mounting the agent socket
+podman run -it \
+  --name sel \
+  -v "$SSH_AUTH_SOCK:/ssh-agent" \
+  -e SSH_AUTH_SOCK=/ssh-agent \
+  riscv-freertos
+
+# Within the container, check for keys:
+ssh-add -l
+
+# If that doesn't work, my last resort has been just copying my keys into the container.
+```
 
 From inside the container, you can run the simulator:
 ```bash
