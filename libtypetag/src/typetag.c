@@ -1,6 +1,7 @@
 #include "typetag/typetag.h"
 #include <assert.h>
 
+/// Extracts the bits `offset..(offset + len)` within `tag`
 typetag_t get_bits(typetag_t tag, short offset, short len) {
 	return (tag >> offset) & (((typetag_t)1 << len) - 1);
 }
@@ -11,6 +12,8 @@ int tt_get_obj_size(typetag_t tag) {
 	return (1 << (int)get_bits(tag, 0, 2));
 }
 
+/// Size of this object in bytes. {1, 2, 4, 8} are valid
+/// sizes.
 typetag_t tt_set_obj_size(typetag_t tag, int size) {
 	int val = 0;
 	switch(size) {

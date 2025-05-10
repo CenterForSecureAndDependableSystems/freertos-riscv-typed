@@ -10,4 +10,6 @@ riscv32-unknown-elf-gdb \
 	-ex 'layout split' \
 	$@
 
-kill -9 $!
+# Kill openocd after we're done debugging
+# kill -9 $! 
+kill -9 $(pgrep openocd)

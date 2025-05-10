@@ -7,6 +7,8 @@ When cloning this repo, make sure you fetch all submodules as well:
 git clone --recurse-submodules https://github.com/u1f98e/freertos-riscv-typed.git
 ```
 
+More information on changes made to SPIKE can be found in [Status.md](Status.md)
+
 # Setup
 This repository provides a Dockerfile for building an image which can be used
 to create new containers. You'll need an OCI compatible runtime like 
@@ -52,8 +54,11 @@ You should now have a final image named `riscv-freertos`.
 Either use the Docker GUI to start and enter the container, or use:
 
 ```bash
-docker run -it riscv-freertos
+docker start riscv-freertos
+docker exec -it riscv-freertos /bin/bash
 ```
+
+Generally for development, I work and commit changes from inside the container.
 
 From inside the container, you can run the simulator:
 ```bash
@@ -78,7 +83,7 @@ $ spike -m0x80000000:0x10000 --tag-mem 0x90000000:0x10000:0x80000000 prog
 ```
 
 Tag regions must completely overlap with a normal region (they can be smaller, 
-but can't go past either boundary). Address space with no tag region mapped to it
+but can't go past the beginning or end of the normal region). Address space with no tag region mapped to it
 will ignore tag operations and should report back `0x0` if an instruction tries
 to load a tag.
 
