@@ -29,6 +29,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 #include <stdio.h>
+#include <string.h>
 #include <typetag/control.h>
 #include <typetag/typetag.h>
 
@@ -82,11 +83,16 @@ int return_validate_good() {
 }
 
 void return_validate_evil() {
+    return_validate_good(); // Call a function to force the return address onto the stack
+
+    char dst[2];
+    const char src[] = {0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x00};
     // Overwrite the return address
-    __asm__ volatile ("lw t0, 12(sp)");
-    __asm__ volatile ("addi t0, t0, 8");
-    __asm__ volatile ("sw t0, 12(sp)");
-    return_validate_good();
+    strcpy(dst, src);
+
+    // __asm__ volatile ("lw t0, 12(sp)");
+    // __asm__ volatile ("addi t0, t0, 8");
+    // __asm__ volatile ("sw t0, 12(sp)");
 }
 
 int test_return() {
@@ -152,6 +158,10 @@ int main( void )
 
     run_test("Get/Set", &test_tag_get_set);
     run_test("Basic Propagation", &test_tag_propagation);
+    // This crashes (which it's supposed to), ideally I'd like
+    // to have a recovery mechanism to skip to the next test
+    // if a hard fault is triggered, but haven't worked out how
+    // to intercept it from FreeRTOS.
     // run_test("Return Addr", &test_return);
 
     vSendString("Done."); 
