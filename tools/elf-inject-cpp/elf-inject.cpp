@@ -22,6 +22,7 @@ size_t first_available_vaddr(Binary const& elf) {
 int main(int argc, char** argv) {
 	if(argc < 5) {
 		printf("Usage: elf-inject <input_elf> <output> <section_name> <linked_section_name> <content_file>\n");
+		exit(1);
 	}
 
 	std::string input_elf(argv[1]);
