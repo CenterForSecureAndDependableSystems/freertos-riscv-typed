@@ -23,8 +23,10 @@ Two images are present in this repo, one for building the
 is provided on DockerHub [here](https://hub.docker.com/repository/docker/u1f98e/crosstools-riscv32-zicsr/general), 
 but you can also build it locally if needed.
 
-### Building Crosstools (Optional)
-If you need to update crosstools or adjust it's configuration, you can build a
+### Building Crosstools (Optional, NOT RECOMMENDED)
+The crosstools toolchain required for this project is provided as an image (see above).
+It takes a long time, so generally it's recommended to use the prebuilt image instead.
+If you need to update crosstools or adjust it's configuration though, you can build a
 local image:
 
 Adjust configuration within [crosstool/crosstool-defconfig](crosstool/crosstool-defconfig) or update the
@@ -75,9 +77,9 @@ eval "$(ssh-agent -s)"
 ssh-add -l
 
 # Then create the container, mounting the agent socket
-podman run -it \
+docker run -it \
   --name sel \
-  -v "$SSH_AUTH_SOCK:/ssh-agent" \
+  -v "$SSH_AUTH_SOCK:/ssh-agent:z" \
   -e SSH_AUTH_SOCK=/ssh-agent \
   riscv-freertos
 
@@ -87,13 +89,29 @@ ssh-add -l
 # If that doesn't work, my last resort has been just copying my keys into the container.
 ```
 
+If you need root access (i.e. for installing packages or reinstalling tools),
+you can `exec` into the container as root and set up a sudo password for the
+`researcher` user (there is none by default):
+
+```bash
+docker exec -it -u root sel /bin/bash
+passwd researcher
+```
+
 From inside the container, you can run the simulator:
 ```bash
-cd ~/FreeRTOS/FreeRTOS/Demo/RISC-V-spike-htif_GCC
-spike-run32 ./build/RTOSDemo32.axf
+cd tests/basicTag
+make
+spike-run32 build/basicTag32.axf
 
 # spike-run32 is a script which expands to:
-spike -p1 --isa RV32IMA -m0x80000000:0x10000000 --rbb-port 9824 ./build/RTOSDemo32.axf
+spike \
+	-p1 \
+	--isa RV32IMA \
+	-m0x80000000:0x10000000 \
+	--tag-mem 0x90000000:0x10000000:0x80000000 \
+	--rbb-port 9824 \
+	$@
 ```
 
 To test with type tags, you'll need to create a tag region.
@@ -114,5 +132,7 @@ but can't go past the beginning or end of the normal region). Address space with
 will ignore tag operations and should report back `0x0` if an instruction tries
 to load a tag.
 
-Other tests can be found in the `~/FreeRTOS/FreeRTOS/tests` directory. You
+Other tests can be found in the `~/project/tests` directory. You
 should be able to build the `.axf` files with `make`.
+
+Check [Status.md](Status.md) for more details.
